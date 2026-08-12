@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { User, Eye, EyeOff } from 'lucide-react';
 import { AuthLayout } from '@/components/AuthLayout';
 import { Button } from '@/components/ui/Button';
-import { useAuth } from '@/contexts/AuthContext';
 
 export function RegisterWorkerPage() {
   const [formData, setFormData] = useState({
@@ -16,10 +15,6 @@ export function RegisterWorkerPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
-  const [generalError, setGeneralError] = useState('');
-
-  const { signUp, getRoleRedirectPath } = useAuth();
   const navigate = useNavigate();
 
   const updateField = (field: string, value: string) => {
@@ -60,25 +55,10 @@ export function RegisterWorkerPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setGeneralError('');
-
     if (!validate()) return;
-
-    setLoading(true);
-    const { error } = await signUp(formData.email, formData.password, 'worker', {
-      full_name: formData.full_name,
-      phone: formData.phone,
-    });
-    setLoading(false);
-
-    if (error) {
-      setGeneralError(error);
-      return;
-    }
-
-    navigate(getRoleRedirectPath('worker'), {
+    navigate('/worker', {
       replace: true,
       state: { message: 'Account created successfully! Welcome to SetuHealth.' },
     });
@@ -96,12 +76,6 @@ export function RegisterWorkerPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {generalError && (
-          <div className="rounded-lg bg-danger-50 border border-danger-200 p-4">
-            <p className="text-sm text-danger-700">{generalError}</p>
-          </div>
-        )}
-
         <div>
           <label htmlFor="full_name" className="mb-1.5 block text-sm font-semibold text-ink-800">
             Full Name
@@ -115,7 +89,6 @@ export function RegisterWorkerPage() {
             className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 ${
               errors.full_name ? 'border-danger-400' : 'border-ink-300'
             }`}
-            disabled={loading}
           />
           {errors.full_name && <p className="mt-1 text-xs text-danger-600">{errors.full_name}</p>}
         </div>
@@ -133,7 +106,6 @@ export function RegisterWorkerPage() {
             className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 ${
               errors.email ? 'border-danger-400' : 'border-ink-300'
             }`}
-            disabled={loading}
             autoComplete="email"
           />
           {errors.email && <p className="mt-1 text-xs text-danger-600">{errors.email}</p>}
@@ -152,7 +124,6 @@ export function RegisterWorkerPage() {
             className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 ${
               errors.phone ? 'border-danger-400' : 'border-ink-300'
             }`}
-            disabled={loading}
           />
           {errors.phone && <p className="mt-1 text-xs text-danger-600">{errors.phone}</p>}
         </div>
@@ -171,7 +142,6 @@ export function RegisterWorkerPage() {
               className={`w-full rounded-lg border bg-white px-4 py-3 pr-12 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 ${
                 errors.password ? 'border-danger-400' : 'border-ink-300'
               }`}
-              disabled={loading}
               autoComplete="new-password"
             />
             <button
@@ -200,7 +170,6 @@ export function RegisterWorkerPage() {
               className={`w-full rounded-lg border bg-white px-4 py-3 pr-12 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 ${
                 errors.confirm_password ? 'border-danger-400' : 'border-ink-300'
               }`}
-              disabled={loading}
               autoComplete="new-password"
             />
             <button
@@ -215,20 +184,8 @@ export function RegisterWorkerPage() {
           {errors.confirm_password && <p className="mt-1 text-xs text-danger-600">{errors.confirm_password}</p>}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          size="lg"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Creating account...
-            </>
-          ) : (
-            'Create Account'
-          )}
+        <Button type="submit" className="w-full" size="lg">
+          Create Account
         </Button>
       </form>
 

@@ -7,18 +7,13 @@ import { Badge } from '@/components/ui/Badge';
 const roles = [
   {
     id: 'worker',
-<<<<<<< HEAD
     loginTo: '/login/worker',
     registerTo: '/register/worker',
-=======
-    to: '/worker',
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
     title: 'Migrant Worker',
     desc: 'View your Health ID, medical history, prescriptions, lab reports, and get multilingual assistance.',
     icon: User,
     color: 'from-primary-600 to-primary-700',
     features: ['Digital Health ID & QR', 'Medical history & records', 'Multilingual HealthSaathi', 'Emergency health card'],
-<<<<<<< HEAD
     hasRegister: true,
     registerLabel: 'Create Worker Account',
   },
@@ -26,18 +21,11 @@ const roles = [
     id: 'doctor',
     loginTo: '/login/doctor',
     registerTo: '/register/doctor',
-=======
-  },
-  {
-    id: 'doctor',
-    to: '/doctor',
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
     title: 'Healthcare Worker',
     desc: 'Search or scan a patient Health ID, view authorized records, and add new consultations.',
     icon: Stethoscope,
     color: 'from-secondary-600 to-secondary-700',
     features: ['Search & scan Health ID', 'Full patient record access', 'Add consultations & prescriptions', 'Lab reports & vaccinations'],
-<<<<<<< HEAD
     hasRegister: true,
     registerLabel: 'Create Doctor Account',
   },
@@ -45,22 +33,13 @@ const roles = [
     id: 'admin',
     loginTo: '/login/admin',
     registerTo: '',
-=======
-  },
-  {
-    id: 'admin',
-    to: '/admin',
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
     title: 'Health Authority',
     desc: 'View anonymized analytics, disease monitoring, vaccination coverage, and district-wise trends.',
     icon: ShieldCheck,
     color: 'from-ink-700 to-ink-800',
     features: ['Worker registration analytics', 'Disease trend monitoring', 'Vaccination coverage', 'District-wise insights'],
-<<<<<<< HEAD
     hasRegister: false,
     registerLabel: '',
-=======
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
   },
 ];
 
@@ -86,27 +65,15 @@ export function RoleSelectPage() {
             How would you like to continue?
           </h1>
           <p className="mt-4 text-lg text-ink-600">
-<<<<<<< HEAD
             Select your role to sign in or create an account. Each portal is tailored to its user.
-=======
-            Select a role to explore the demo. Each portal is tailored to its user — worker, healthcare
-            provider, or health authority.
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
           </p>
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {roles.map((role) => (
-<<<<<<< HEAD
             <div
               key={role.id}
               className="group relative overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card transition-all duration-300 hover:shadow-card-lg hover:border-primary-300"
-=======
-            <Link
-              key={role.id}
-              to={role.to}
-              className="group relative overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card transition-all duration-300 hover:shadow-card-lg hover:border-primary-300 hover:-translate-y-1"
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
             >
               {/* Color bar */}
               <div className={`h-2 bg-gradient-to-r ${role.color}`} />
@@ -127,7 +94,6 @@ export function RoleSelectPage() {
                   ))}
                 </ul>
 
-<<<<<<< HEAD
                 <div className="mt-6 space-y-3">
                   <Link to={role.loginTo}>
                     <Button className="w-full" variant="primary">
@@ -145,25 +111,11 @@ export function RoleSelectPage() {
                 </div>
               </div>
             </div>
-=======
-                <div className="mt-6 flex items-center justify-between">
-                  <span className="text-sm font-bold text-primary-700 group-hover:text-primary-800">
-                    Enter Portal
-                  </span>
-                  <ArrowRight className="h-5 w-5 text-primary-600 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            </Link>
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
           ))}
         </div>
 
         <p className="mt-10 text-center text-xs text-ink-400">
-<<<<<<< HEAD
-          All data shown is fictional demo data. Authentication is powered by Supabase.
-=======
-          Demo mode — no real authentication required. All data shown is fictional.
->>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
+          All data shown is fictional demo data. Frontend demo mode.
         </p>
       </div>
     </div>

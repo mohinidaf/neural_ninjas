@@ -1,15 +1,9 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation, type Location } from 'react-router-dom';
-import { User, Stethoscope, ShieldCheck, Building2, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { User, Stethoscope, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { AuthLayout } from '@/components/AuthLayout';
 import { Button } from '@/components/ui/Button';
-import { useAuth } from '@/contexts/AuthContext';
 import type { Role } from '@/types';
-
-interface LocationState {
-  from?: Location;
-  message?: string;
-}
 
 const roleConfig: Record<Role, { title: string; subtitle: string; icon: React.ReactNode; color: string; registerPath: string; registerLabel: string }> = {
   worker: {
@@ -36,14 +30,6 @@ const roleConfig: Record<Role, { title: string; subtitle: string; icon: React.Re
     registerPath: '',
     registerLabel: '',
   },
-  hospital: {
-    title: 'Hospital Login',
-    subtitle: 'Sign in to manage hospital operations',
-    icon: <Building2 className="h-6 w-6" />,
-    color: 'from-accent-600 to-accent-700',
-    registerPath: '/register/hospital',
-    registerLabel: 'Register Hospital',
-  },
 };
 
 interface LoginPageProps {
@@ -55,17 +41,10 @@ export function LoginPage({ role }: LoginPageProps) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const { signIn, getRoleRedirectPath } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const config = roleConfig[role];
 
-  const from = (location.state as LocationState)?.from?.pathname || getRoleRedirectPath(role);
-  const message = (location.state as LocationState)?.message;
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -78,26 +57,11 @@ export function LoginPage({ role }: LoginPageProps) {
       return;
     }
 
-    setLoading(true);
-    const { error: signInError } = await signIn(email, password);
-    setLoading(false);
-
-    if (signInError) {
-      setError(signInError);
-      return;
-    }
-
-    navigate(from, { replace: true });
+    navigate(`/${role}`, { replace: true });
   };
 
   return (
     <AuthLayout title={config.title} subtitle={config.subtitle}>
-      {message && (
-        <div className="mb-6 rounded-lg bg-success-50 border border-success-200 p-4">
-          <p className="text-sm text-success-700">{message}</p>
-        </div>
-      )}
-
       <div className="mb-6">
         <div className={`inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${config.color} text-white shadow-sm`}>
           {config.icon}
@@ -122,7 +86,6 @@ export function LoginPage({ role }: LoginPageProps) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             className="w-full rounded-lg border border-ink-300 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-            disabled={loading}
             autoComplete="email"
           />
         </div>
@@ -139,7 +102,6 @@ export function LoginPage({ role }: LoginPageProps) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full rounded-lg border border-ink-300 bg-white px-4 py-3 pr-12 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-              disabled={loading}
               autoComplete="current-password"
             />
             <button
@@ -153,29 +115,8 @@ export function LoginPage({ role }: LoginPageProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-end">
-          <Link
-            to={`/forgot-password?role=${role}`}
-            className="text-sm font-semibold text-primary-700 hover:text-primary-800"
-          >
-            Forgot password?
-          </Link>
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full"
-          size="lg"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Signing in...
-            </>
-          ) : (
-            'Sign In'
-          )}
+        <Button type="submit" className="w-full" size="lg">
+          Sign In
         </Button>
       </form>
 
