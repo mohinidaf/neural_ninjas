@@ -9,7 +9,7 @@ const sdgs = [
   {
     num: '3',
     title: 'Good Health and Well-being',
-    desc: 'SetuHealth improves healthcare continuity and access for migrant workers by providing portable digital health records, ensuring treatment is never disrupted when workers move between districts.',
+    desc: 'Arogya Safar improves healthcare continuity and access for migrant workers by providing portable digital health records, ensuring treatment is never disrupted when workers move between districts.',
     icon: HeartPulse,
     color: 'bg-success-600',
     metric: '14,827 workers with health records',
@@ -25,7 +25,7 @@ const sdgs = [
   {
     num: '10',
     title: 'Reduced Inequalities',
-    desc: 'By providing multilingual support and portable health identity, SetuHealth reduces the healthcare access gap between migrant workers and local populations.',
+    desc: 'By providing multilingual support and portable health identity, Arogya Safar reduces the healthcare access gap between migrant workers and local populations.',
     icon: Scale,
     color: 'bg-secondary-600',
     metric: '3 languages supported',
@@ -41,7 +41,7 @@ const sdgs = [
   {
     num: '17',
     title: 'Partnerships for the Goals',
-    desc: 'SetuHealth enables future collaboration between hospitals, government health agencies, NGOs, and insurance providers through a shared health record framework.',
+    desc: 'Arogya Safar enables future collaboration between hospitals, government health agencies, NGOs, and insurance providers through a shared health record framework.',
     icon: Handshake,
     color: 'bg-accent-600',
     metric: 'Multi-stakeholder framework',
@@ -53,7 +53,7 @@ export function AdminSDG() {
     <DashboardLayout role="admin">
       <PageHeader
         title="SDG Impact"
-        subtitle="How SetuHealth contributes to UN Sustainable Development Goals."
+        subtitle="How Arogya Safar contributes to UN Sustainable Development Goals."
       />
 
       <div className="mb-6 rounded-xl bg-gradient-to-br from-primary-900 to-primary-800 p-6 text-white">
@@ -65,7 +65,7 @@ export function AdminSDG() {
         </div>
         <h2 className="text-2xl font-extrabold mt-2">Advancing global goals, locally</h2>
         <p className="mt-2 text-primary-200 max-w-2xl">
-          SetuHealth directly contributes to five SDGs by improving health access for migrant workers,
+          Arogya Safar directly contributes to five SDGs by improving health access for migrant workers,
           building digital infrastructure, reducing inequality, strengthening institutions, and enabling partnerships.
         </p>
       </div>

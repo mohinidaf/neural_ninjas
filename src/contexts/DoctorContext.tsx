@@ -54,26 +54,26 @@ export function useDoctor() {
 
 export function DoctorProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<DoctorProfileData>(() =>
-    loadFromStorage('setu_doctor_profile', defaultProfile)
+    loadFromStorage('arogya_doctor_profile', defaultProfile)
   );
   const [scannedPatientIds, setScannedPatientIds] = useState<string[]>(() =>
-    loadFromStorage<string[]>('setu_scanned_patients', [])
+    loadFromStorage<string[]>('arogya_scanned_patients', [])
   );
   const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>(() =>
-    loadFromStorage<ActivityLogEntry[]>('setu_activity_log', [])
+    loadFromStorage<ActivityLogEntry[]>('arogya_activity_log', [])
   );
   const [localConsultations, setLocalConsultations] = useState<Record<string, Consultation[]>>(() =>
-    loadFromStorage<Record<string, Consultation[]>>('setu_local_consultations', {})
+    loadFromStorage<Record<string, Consultation[]>>('arogya_local_consultations', {})
   );
   const [localPrescriptions, setLocalPrescriptions] = useState<Record<string, Prescription[]>>(() =>
-    loadFromStorage<Record<string, Prescription[]>>('setu_local_prescriptions', {})
+    loadFromStorage<Record<string, Prescription[]>>('arogya_local_prescriptions', {})
   );
 
-  useEffect(() => { saveToStorage('setu_doctor_profile', profile); }, [profile]);
-  useEffect(() => { saveToStorage('setu_scanned_patients', scannedPatientIds); }, [scannedPatientIds]);
-  useEffect(() => { saveToStorage('setu_activity_log', activityLog); }, [activityLog]);
-  useEffect(() => { saveToStorage('setu_local_consultations', localConsultations); }, [localConsultations]);
-  useEffect(() => { saveToStorage('setu_local_prescriptions', localPrescriptions); }, [localPrescriptions]);
+  useEffect(() => { saveToStorage('arogya_doctor_profile', profile); }, [profile]);
+  useEffect(() => { saveToStorage('arogya_scanned_patients', scannedPatientIds); }, [scannedPatientIds]);
+  useEffect(() => { saveToStorage('arogya_activity_log', activityLog); }, [activityLog]);
+  useEffect(() => { saveToStorage('arogya_local_consultations', localConsultations); }, [localConsultations]);
+  useEffect(() => { saveToStorage('arogya_local_prescriptions', localPrescriptions); }, [localPrescriptions]);
 
   const updateProfile = useCallback((data: DoctorProfileData) => {
     setProfile(data);

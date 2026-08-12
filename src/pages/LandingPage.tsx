@@ -218,7 +218,7 @@ export function LandingPage() {
               Advancing global goals, locally
             </h2>
             <p className="mt-4 text-lg text-ink-600">
-              SetuHealth contributes directly to five UN Sustainable Development Goals by improving health
+              Arogya Safar contributes directly to five UN Sustainable Development Goals by improving health
               access, building infrastructure, and reducing inequality.
             </p>
           </div>
@@ -278,7 +278,7 @@ export function LandingPage() {
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
                   <HeartPulse className="h-5 w-5" />
                 </div>
-                <span className="text-lg font-extrabold text-ink-900">Setu<span className="text-brand-gradient">Health</span></span>
+                <span className="text-lg font-extrabold text-ink-900">Arogya <span className="text-brand-gradient">Safar</span></span>
               </div>
               <p className="mt-4 max-w-md text-sm text-ink-600 leading-relaxed">
                 A digital health record management system for migrant workers in Kerala, aligned with the UN
@@ -307,7 +307,7 @@ export function LandingPage() {
           </div>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-ink-200 pt-6">
             <p className="text-xs text-ink-400">
-              © 2026 SetuHealth · SIH Prototype · All data shown is fictional demo data.
+              © 2026 Arogya Safar · SIH Prototype · All data shown is fictional demo data.
             </p>
             <div className="flex items-center gap-2 text-xs text-ink-400">
               <Users className="h-4 w-4" />
@@ -331,7 +331,7 @@ function HeroHealthCard() {
         <div className="flex items-center justify-between bg-gradient-to-r from-primary-800 to-primary-700 px-6 py-4 text-white">
           <div className="flex items-center gap-2">
             <HeartPulse className="h-5 w-5" />
-            <span className="font-bold">SetuHealth</span>
+            <span className="font-bold">Arogya Safar</span>
           </div>
           <Badge tone="success" className="bg-white/15 text-white border-white/20">Active</Badge>
         </div>

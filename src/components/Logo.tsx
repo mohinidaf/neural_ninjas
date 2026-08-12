@@ -15,7 +15,7 @@ export function Logo({ size = 'md', light = false }: { size?: 'sm' | 'md' | 'lg'
       </div>
       <div className="leading-none">
         <span className={`block ${s.text} font-extrabold tracking-tight ${light ? 'text-white' : 'text-ink-900'}`}>
-          Setu<span className="text-brand-gradient">Health</span>
+          Arogya <span className="text-brand-gradient">Safar</span>
         </span>
         <span className={`block text-[10px] font-medium uppercase tracking-wider ${light ? 'text-white/70' : 'text-ink-400'}`}>
           Kerala Migrant Health

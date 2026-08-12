@@ -60,7 +60,7 @@ export function RegisterWorkerPage() {
     if (!validate()) return;
     navigate('/worker', {
       replace: true,
-      state: { message: 'Account created successfully! Welcome to SetuHealth.' },
+      state: { message: 'Account created successfully! Welcome to Arogya Safar.' },
     });
   };
 

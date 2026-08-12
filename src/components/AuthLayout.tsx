@@ -26,7 +26,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
                 <HeartPulse className="h-7 w-7 text-white" />
               </div>
               <div>
-                <span className="text-2xl font-extrabold text-white">SetuHealth</span>
+                <span className="text-2xl font-extrabold text-white">Arogya Safar</span>
                 <span className="block text-xs font-medium text-primary-200 uppercase tracking-wider">
                   Kerala Migrant Health
                 </span>
@@ -80,7 +80,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
                 <HeartPulse className="h-5 w-5" />
               </div>
-              <span className="text-lg font-extrabold text-ink-900">SetuHealth</span>
+              <span className="text-lg font-extrabold text-ink-900">Arogya Safar</span>
             </Link>
             <Link to="/" className="text-sm font-semibold text-primary-700 hover:text-primary-800">
               Back to Home

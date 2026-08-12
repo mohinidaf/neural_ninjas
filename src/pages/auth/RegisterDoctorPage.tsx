@@ -81,7 +81,7 @@ export function RegisterDoctorPage() {
     if (!validate()) return;
     navigate('/doctor', {
       replace: true,
-      state: { message: 'Account created successfully! Welcome to SetuHealth.' },
+      state: { message: 'Account created successfully! Welcome to Arogya Safar.' },
     });
   };
 

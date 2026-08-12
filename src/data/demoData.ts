@@ -683,11 +683,11 @@ const meenaDevi: Patient = {
 demoPatients.push(meenaDevi);
 
 export const demoQRMappings: DemoQRMapping[] = [
-  { qrId: 'SETU-DEMO-001', patientId: 'p1', patientName: 'Rahim Ali' },
-  { qrId: 'SETU-DEMO-002', patientId: 'p2', patientName: 'Bikash Das' },
-  { qrId: 'SETU-DEMO-003', patientId: 'p3', patientName: 'Lakhan Singh' },
-  { qrId: 'SETU-DEMO-004', patientId: 'p4', patientName: 'Arjun Mahato' },
-  { qrId: 'SETU-DEMO-005', patientId: 'p5', patientName: 'Meena Devi' },
+  { qrId: 'AROGYA-DEMO-001', patientId: 'p1', patientName: 'Rahim Ali' },
+  { qrId: 'AROGYA-DEMO-002', patientId: 'p2', patientName: 'Bikash Das' },
+  { qrId: 'AROGYA-DEMO-003', patientId: 'p3', patientName: 'Lakhan Singh' },
+  { qrId: 'AROGYA-DEMO-004', patientId: 'p4', patientName: 'Arjun Mahato' },
+  { qrId: 'AROGYA-DEMO-005', patientId: 'p5', patientName: 'Meena Devi' },
 ];
 
 export function findPatientByQR(qrId: string): Patient | undefined {

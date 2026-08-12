@@ -14,7 +14,7 @@ export function HealthIDCard({ patient, compact = false }: HealthIDCardProps) {
       <div className="flex items-center justify-between bg-gradient-to-r from-primary-800 to-primary-700 px-5 py-3.5 text-white">
         <div className="flex items-center gap-2">
           <HeartPulse className="h-5 w-5" />
-          <span className="font-bold">SetuHealth</span>
+          <span className="font-bold">Arogya Safar</span>
         </div>
         <Badge tone="success" className="bg-white/15 text-white border-white/20">Active</Badge>
       </div>
