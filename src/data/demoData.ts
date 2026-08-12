@@ -5,6 +5,12 @@ import type {
   ChatQuickAction,
 } from '@/types';
 
+export interface DemoQRMapping {
+  qrId: string;
+  patientId: string;
+  patientName: string;
+}
+
 export const demoPatients: Patient[] = [
   {
     id: 'p1',
@@ -544,4 +550,148 @@ export const chatQuickActions: ChatQuickAction[] = [
 
 export function findPatientByHealthId(id: string): Patient | undefined {
   return demoPatients.find((p) => p.healthId.toLowerCase() === id.toLowerCase());
+}
+
+// 5th demo patient — Meena Devi
+const meenaDevi: Patient = {
+  id: 'p5',
+  healthId: 'KER-MW-10734',
+  name: 'Meena Devi',
+  age: 29,
+  gender: 'Female',
+  phone: '+91 78901 23456',
+  nativeState: 'West Bengal',
+  currentDistrict: 'Thrissur',
+  bloodGroup: 'B-',
+  registrationDate: '2026-06-10',
+  lastUpdated: '2026-08-11',
+  emergencyContact: {
+    name: 'Ratan Devi',
+    relationship: 'Mother',
+    phone: '+91 78901 88800',
+  },
+  allergies: [
+    { id: 'a1', substance: 'Iodine', severity: 'moderate', note: 'Skin rash on contact' },
+    { id: 'a2', substance: 'Shellfish', severity: 'severe', note: 'Anaphylaxis risk' },
+  ],
+  chronicConditions: [
+    { id: 'c1', name: 'Type 2 Diabetes', diagnosedDate: '2024-03-15', status: 'managed', note: 'Diet-controlled, occasional Metformin' },
+  ],
+  medications: [
+    {
+      id: 'm1',
+      name: 'Metformin',
+      dosage: '500 mg',
+      frequency: 'Twice daily',
+      startDate: '2024-04-01',
+      status: 'active',
+      prescribedBy: 'Dr. Subhash Chandra',
+    },
+  ],
+  consultations: [
+    {
+      id: 'cons1',
+      date: '2026-08-11',
+      hospital: 'Government Medical College, Thrissur',
+      doctor: 'Dr. Subhash Chandra',
+      symptoms: 'Frequent urination, increased thirst, fatigue',
+      diagnosis: 'Type 2 Diabetes — elevated blood sugar',
+      treatment: 'Continue Metformin, dietary counseling, regular monitoring',
+      followUpDate: '2026-11-11',
+      notes: 'HbA1c check due in 3 months. Refer to ophthalmologist for retinal screening.',
+    },
+    {
+      id: 'cons2',
+      date: '2026-05-20',
+      hospital: 'Primary Health Centre, Thrissur',
+      doctor: 'Dr. Lakshmi Nair',
+      symptoms: 'Mild fever, cough',
+      diagnosis: 'Upper Respiratory Tract Infection',
+      treatment: 'Supportive care, paracetamol, rest',
+    },
+  ],
+  labReports: [
+    {
+      id: 'lab1',
+      testName: 'HbA1c (Glycated Hemoglobin)',
+      date: '2026-08-11',
+      hospital: 'Government Medical College, Thrissur',
+      status: 'completed',
+      result: '7.8%',
+      normalRange: '< 5.7%',
+    },
+    {
+      id: 'lab2',
+      testName: 'Fasting Blood Sugar',
+      date: '2026-08-11',
+      hospital: 'Government Medical College, Thrissur',
+      status: 'completed',
+      result: '156 mg/dL',
+      normalRange: '70–100 mg/dL',
+    },
+    {
+      id: 'lab3',
+      testName: 'Urinalysis',
+      date: '2026-05-20',
+      hospital: 'Primary Health Centre, Thrissur',
+      status: 'completed',
+      result: 'Normal',
+    },
+  ],
+  vaccinations: [
+    {
+      id: 'v1',
+      vaccine: 'Influenza',
+      date: '2026-01-15',
+      dose: 'Annual',
+      status: 'completed',
+      hospital: 'Primary Health Centre, Thrissur',
+    },
+    {
+      id: 'v2',
+      vaccine: 'Tetanus',
+      date: '2025-06-10',
+      dose: 'Booster',
+      nextDueDate: '2035-06-10',
+      status: 'completed',
+      hospital: 'Primary Health Centre, Thrissur',
+    },
+  ],
+  documents: [
+    {
+      id: 'd1',
+      title: 'Diabetes Management Plan',
+      type: 'discharge_summary',
+      date: '2026-08-11',
+      hospital: 'Government Medical College, Thrissur',
+    },
+    {
+      id: 'd2',
+      title: 'HbA1c Report',
+      type: 'lab_report',
+      date: '2026-08-11',
+      hospital: 'Government Medical College, Thrissur',
+    },
+  ],
+  insurance: {
+    provider: 'Ayushman Bharat',
+    policyNumber: 'AB-2026-55231',
+    status: 'active',
+  },
+};
+
+demoPatients.push(meenaDevi);
+
+export const demoQRMappings: DemoQRMapping[] = [
+  { qrId: 'SETU-DEMO-001', patientId: 'p1', patientName: 'Rahim Ali' },
+  { qrId: 'SETU-DEMO-002', patientId: 'p2', patientName: 'Bikash Das' },
+  { qrId: 'SETU-DEMO-003', patientId: 'p3', patientName: 'Lakhan Singh' },
+  { qrId: 'SETU-DEMO-004', patientId: 'p4', patientName: 'Arjun Mahato' },
+  { qrId: 'SETU-DEMO-005', patientId: 'p5', patientName: 'Meena Devi' },
+];
+
+export function findPatientByQR(qrId: string): Patient | undefined {
+  const mapping = demoQRMappings.find((m) => m.qrId === qrId);
+  if (!mapping) return undefined;
+  return demoPatients.find((p) => p.id === mapping.patientId);
 }

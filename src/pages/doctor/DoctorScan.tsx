@@ -1,135 +1,205 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { QrCode, Search, ArrowRight, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Camera, Search, UserCheck, ArrowRight, AlertTriangle,
+} from 'lucide-react';
 import { DashboardLayout, PageHeader } from '@/components/DashboardLayout';
 import { Card, CardHeader } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Form';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { findPatientByHealthId, demoPatients } from '@/data/demoData';
+import { useDoctor } from '@/contexts/DoctorContext';
+import { demoPatients, demoQRMappings, findPatientByQR, findPatientByHealthId } from '@/data/demoData';
 
 export function DoctorScan() {
-  const [healthId, setHealthId] = useState('');
-  const [result, setResult] = useState<'none' | 'found' | 'notfound'>('none');
-  const [patient, setPatient] = useState(demoPatients[0]);
+  const { addScannedPatient, addActivity, scannedPatientIds, isProfileComplete } = useDoctor();
+  const navigate = useNavigate();
+  const [manualId, setManualId] = useState('');
+  const [searchResult, setSearchResult] = useState<'none' | 'found' | 'notfound'>('none');
+  const [foundPatient, setFoundPatient] = useState<typeof demoPatients[0] | null>(null);
 
-  const handleSearch = () => {
-    const found = findPatientByHealthId(healthId);
+  if (!isProfileComplete()) {
+    return (
+      <DashboardLayout role="doctor">
+        <PageHeader title="Scan Patient QR" subtitle="Complete your profile first" />
+        <Card padding="lg" className="max-w-md mx-auto text-center">
+          <AlertTriangle className="h-10 w-10 text-warning-500 mx-auto mb-3" />
+          <p className="text-ink-900 font-bold">Profile Incomplete</p>
+          <p className="text-sm text-ink-500 mt-1">You must complete your doctor profile before scanning patient QR codes.</p>
+          <Button className="mt-4" onClick={() => navigate('/doctor/profile')}>Complete Profile</Button>
+        </Card>
+      </DashboardLayout>
+    );
+  }
+
+  const handleManualSearch = () => {
+    if (!manualId.trim()) return;
+    const found = findPatientByHealthId(manualId.trim());
     if (found) {
-      setPatient(found);
-      setResult('found');
+      setFoundPatient(found);
+      setSearchResult('found');
     } else {
-      setResult('notfound');
+      setSearchResult('notfound');
     }
+  };
+
+  const handleSelectQR = (qrId: string) => {
+    const patient = findPatientByQR(qrId);
+    if (patient) {
+      setFoundPatient(patient);
+      setSearchResult('found');
+    }
+  };
+
+  const handleAddToPatients = (patient: typeof demoPatients[0]) => {
+    addScannedPatient(patient.id);
+    addActivity({
+      type: 'consultation',
+      description: `Scanned and added patient: ${patient.name} (${patient.healthId})`,
+      patientId: patient.id,
+      patientName: patient.name,
+    });
+    navigate(`/doctor/patient/${patient.healthId}`);
   };
 
   return (
     <DashboardLayout role="doctor">
-      <PageHeader title="Scan / Enter Health ID" subtitle="Scan a patient's QR code or manually enter their Health ID." />
+      <PageHeader
+        title="Scan Patient QR"
+        subtitle="Scan a patient's QR code or use a demo code below"
+      />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Scanner mock + manual entry */}
-        <Card padding="md">
-          <CardHeader title="QR Scanner" subtitle="Camera scanner UI" icon={<QrCode className="h-5 w-5" />} />
-          {/* Scanner viewport */}
-          <div className="relative aspect-square max-w-sm mx-auto overflow-hidden rounded-xl border-2 border-primary-300 bg-ink-900">
-            {/* Corner brackets */}
-            <div className="absolute top-3 left-3 h-8 w-8 border-t-4 border-l-4 rounded-tl-lg border-primary-400" />
-            <div className="absolute top-3 right-3 h-8 w-8 border-t-4 border-r-4 rounded-tr-lg border-primary-400" />
-            <div className="absolute bottom-3 left-3 h-8 w-8 border-b-4 border-l-4 rounded-bl-lg border-primary-400" />
-            <div className="absolute bottom-3 right-3 h-8 w-8 border-b-4 border-r-4 rounded-br-lg border-primary-400" />
-            {/* Scan line */}
-            <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-primary-400 shadow-[0_0_8px_2px_rgba(53,99,160,0.5)] animate-pulse" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-white/70 text-center px-8">
-                Camera preview<br />
-                <span className="text-xs text-white/50">Position QR code within frame</span>
-              </p>
+      {/* Demo QR Codes */}
+      <Card padding="lg">
+        <CardHeader title="Demo QR Codes" subtitle="Tap any code below to simulate scanning that patient's QR" icon={<Camera className="h-5 w-5" />} />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {demoQRMappings.map((qr) => {
+            const patient = demoPatients.find((p) => p.id === qr.patientId)!;
+            const isAlreadyAdded = scannedPatientIds.includes(qr.patientId);
+            return (
+              <button
+                key={qr.qrId}
+                onClick={() => !isAlreadyAdded && handleSelectQR(qr.qrId)}
+                disabled={isAlreadyAdded}
+                className={`text-left rounded-xl border-2 p-4 transition-all ${
+                  isAlreadyAdded
+                    ? 'border-success-300 bg-success-50 cursor-default'
+                    : 'border-ink-200 hover:border-primary-400 hover:bg-primary-50 cursor-pointer'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-ink-400">{qr.qrId}</span>
+                  {isAlreadyAdded ? (
+                    <Badge tone="success" className="text-[10px]">Added</Badge>
+                  ) : (
+                    <Camera className="h-4 w-4 text-ink-400" />
+                  )}
+                </div>
+                <p className="text-sm font-bold text-ink-900">{patient.name}</p>
+                <p className="text-xs text-ink-500">{patient.healthId}</p>
+                <p className="text-xs text-ink-500 mt-1">{patient.currentDistrict} · {patient.age}y · {patient.gender === 'M' ? 'Male' : 'Female'}</p>
+                {patient.allergies.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {patient.allergies.map((a) => <Badge key={a.id} tone="danger" className="text-[9px]">{a.substance}</Badge>)}
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* Manual Entry */}
+      <Card padding="lg" className="mt-6">
+        <CardHeader title="Manual Health ID Entry" subtitle="Type a Health ID if QR scanning is unavailable" icon={<Search className="h-5 w-5" />} />
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="e.g. KER-MW-10245"
+            value={manualId}
+            onChange={(e) => { setManualId(e.target.value); setSearchResult('none'); }}
+            onKeyDown={(e) => e.key === 'Enter' && handleManualSearch()}
+            className="flex-1 rounded-lg border border-ink-300 px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+          />
+          <Button onClick={handleManualSearch} icon={<Search className="h-4 w-4" />}>Search</Button>
+        </div>
+      </Card>
+
+      {/* Search Result */}
+      {searchResult === 'found' && foundPatient && (
+        <Card padding="lg" className="mt-6 border-success-200 bg-success-50/50">
+          <div className="flex items-start justify-between">
+            <div className="flex items-start gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary-100 text-lg font-bold text-primary-700">
+                {foundPatient.name.split(' ').map((n) => n[0]).join('')}
+              </div>
+              <div>
+                <p className="text-lg font-bold text-ink-900">{foundPatient.name}</p>
+                <p className="text-sm text-ink-500">{foundPatient.healthId} · {foundPatient.currentDistrict}</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {foundPatient.allergies.map((a) => <Badge key={a.id} tone="danger">{a.substance}</Badge>)}
+                  {foundPatient.chronicConditions.map((c) => <Badge key={c.id} tone="warning">{c.condition}</Badge>)}
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              {scannedPatientIds.includes(foundPatient.id) ? (
+                <Badge tone="success">Already in your patients</Badge>
+              ) : (
+                <Button onClick={() => handleAddToPatients(foundPatient)} icon={<UserCheck className="h-4 w-4" />}>
+                  Add to My Patients
+                </Button>
+              )}
             </div>
           </div>
-          <p className="mt-4 text-center text-xs text-ink-500">
-            Scanner is a demo UI. Use manual entry below to search by Health ID.
-          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3 text-sm">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Age/Gender</p>
+              <p className="text-ink-900">{foundPatient.age}y · {foundPatient.gender === 'M' ? 'Male' : 'Female'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Blood Type</p>
+              <p className="text-ink-900">{foundPatient.bloodType}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Phone</p>
+              <p className="text-ink-900">{foundPatient.phone}</p>
+            </div>
+          </div>
         </Card>
+      )}
+      {searchResult === 'notfound' && (
+        <Card padding="md" className="mt-6 border-danger-200 bg-danger-50/30">
+          <p className="text-sm text-danger-700 font-semibold">No patient found with Health ID "{manualId}". Check the ID and try again.</p>
+        </Card>
+      )}
 
-        {/* Manual entry + result */}
-        <div className="space-y-4">
-          <Card padding="md">
-            <CardHeader title="Manual Entry" subtitle="Enter Health ID to search" icon={<Search className="h-5 w-5" />} />
-            <Input
-              placeholder="e.g. KER-MW-10245"
-              value={healthId}
-              onChange={(e) => setHealthId(e.target.value)}
-              onPressEnter={handleSearch}
-            />
-            <div className="mt-3 flex gap-2">
-              <Button onClick={handleSearch} icon={<Search className="h-4 w-4" />} className="flex-1">
-                Search
-              </Button>
-              <Button variant="outline" onClick={() => { setHealthId('KER-MW-10245'); }} className="flex-1">
-                Try Demo ID
-              </Button>
-            </div>
-
-            {/* Quick suggestions */}
-            <div className="mt-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-ink-400 mb-2">Demo Health IDs</p>
-              <div className="flex flex-wrap gap-2">
-                {demoPatients.map(p => (
-                  <button
-                    key={p.id}
-                    onClick={() => { setHealthId(p.healthId); }}
-                    className="rounded-full border border-ink-200 bg-ink-50 px-3 py-1 text-xs font-semibold text-ink-700 hover:border-primary-300 hover:bg-primary-50"
-                  >
-                    {p.healthId}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </Card>
-
-          {/* Result */}
-          {result === 'found' && (
-            <Card padding="md" className="border-success-300 bg-success-50/50 animate-scale-in">
-              <div className="flex items-center gap-2 text-success-700">
-                <ShieldCheck className="h-5 w-5" />
-                <h3 className="text-base font-bold">Patient Record Found</h3>
-              </div>
-              <div className="mt-3 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-base font-bold text-primary-700">
-                  {patient.name.split(' ').map(n => n[0]).join('')}
+      {/* All available patients list */}
+      <Card padding="lg" className="mt-6">
+        <p className="text-xs font-bold uppercase tracking-wider text-ink-400 mb-3">All Available Demo Patients</p>
+        <div className="space-y-2">
+          {demoPatients.map((p) => {
+            const isAdded = scannedPatientIds.includes(p.id);
+            return (
+              <div key={p.id} className={`flex items-center justify-between rounded-lg border px-4 py-3 ${isAdded ? 'border-success-200 bg-success-50' : 'border-ink-200'}`}>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
+                    {p.name.split(' ').map((n) => n[0]).join('')}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-ink-900">{p.name}</p>
+                    <p className="text-xs text-ink-500">{p.healthId} · {p.currentDistrict}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-ink-900">{patient.name}</p>
-                  <p className="text-xs text-ink-500">{patient.healthId} · {patient.age}y · {patient.gender}</p>
-                </div>
+                {isAdded ? (
+                  <Badge tone="success">Added</Badge>
+                ) : (
+                  <Button size="sm" variant="ghost" onClick={() => handleAddToPatients(p)} iconRight={<ArrowRight className="h-3 w-3" />}>Add</Button>
+                )}
               </div>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                <Badge tone="danger">Blood: {patient.bloodGroup}</Badge>
-                {patient.allergies.map(a => <Badge key={a.id} tone="danger">Allergy: {a.substance}</Badge>)}
-                {patient.chronicConditions.map(c => <Badge key={c.id} tone="secondary">{c.name}</Badge>)}
-              </div>
-              <Link to={`/doctor/patient/${patient.healthId}`}>
-                <Button className="w-full mt-4" iconRight={<ArrowRight className="h-4 w-4" />}>
-                  Open Patient Record
-                </Button>
-              </Link>
-            </Card>
-          )}
-
-          {result === 'notfound' && (
-            <Card padding="md" className="border-danger-200 bg-danger-50/50">
-              <div className="flex items-center gap-2 text-danger-700">
-                <AlertTriangle className="h-5 w-5" />
-                <h3 className="text-base font-bold">No Record Found</h3>
-              </div>
-              <p className="mt-2 text-sm text-ink-600">
-                No patient found with Health ID "{healthId}". Please check the ID and try again.
-              </p>
-            </Card>
-          )}
+            );
+          })}
         </div>
-      </div>
+      </Card>
     </DashboardLayout>
   );
 }

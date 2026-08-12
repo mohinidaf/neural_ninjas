@@ -1,90 +1,116 @@
-import { Stethoscope, Building2, Phone, Mail, ShieldCheck, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import {
+  User, Mail, Phone, MapPin, Building2, Briefcase, BadgeCheck,
+  Save, CheckCircle,
+} from 'lucide-react';
 import { DashboardLayout, PageHeader } from '@/components/DashboardLayout';
-import { Card, CardHeader } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { useDoctor } from '@/contexts/DoctorContext';
+import type { DoctorProfileData } from '@/types';
 
 export function DoctorProfile() {
+  const { profile, updateProfile, isProfileComplete } = useDoctor();
+  const [form, setForm] = useState<DoctorProfileData>({ ...profile });
+  const [saved, setSaved] = useState(false);
+
+  const completedFields = [form.fullName, form.license, form.specialization, form.hospitalName].filter(Boolean).length;
+  const completionPercent = Math.round((completedFields / 4) * 100);
+
+  const handleSave = () => {
+    updateProfile({ ...form, isComplete: completedFields >= 4 });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const fieldProps = (key: keyof DoctorProfileData, label: string, icon: React.ReactNode, type: string = 'text') => (
+    <div>
+      <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5">{label}</label>
+      <div className="relative">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400">{icon}</span>
+        <input
+          type={type}
+          value={(form[key] as string | number) ?? ''}
+          onChange={(e) => setForm({ ...form, [key]: type === 'number' ? Number(e.target.value) : e.target.value })}
+          className="w-full rounded-lg border border-ink-300 pl-10 pr-3 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <DashboardLayout role="doctor">
-      <PageHeader title="Profile" subtitle="Your professional details and access level." />
+      <PageHeader
+        title="Doctor Profile"
+        subtitle="Complete your profile to access patient records"
+        action={
+          saved
+            ? <Button disabled icon={<CheckCircle className="h-4 w-4" />}>Saved!</Button>
+            : <Button onClick={handleSave} icon={<Save className="h-4 w-4" />}>Save Profile</Button>
+        }
+      />
+
+      {/* Progress bar */}
+      <Card padding="md" className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-bold text-ink-900">Profile Completion</span>
+          <span className={`text-sm font-bold ${completionPercent === 100 ? 'text-success-600' : 'text-warning-600'}`}>{completionPercent}%</span>
+        </div>
+        <div className="h-2 w-full rounded-full bg-ink-100 overflow-hidden">
+          <div className={`h-full rounded-full transition-all duration-500 ${completionPercent === 100 ? 'bg-success-500' : 'bg-warning-500'}`} style={{ width: `${completionPercent}%` }} />
+        </div>
+        {completionPercent === 100 && <p className="mt-2 text-xs text-success-600 flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Your profile is complete. You can now scan patient QR codes.</p>}
+      </Card>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Profile summary */}
-        <Card padding="md" className="text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary-100 text-2xl font-extrabold text-secondary-700">
-            AM
+        <Card padding="lg" className="lg:col-span-2">
+          <h3 className="text-lg font-bold text-ink-900 mb-4">Professional Information</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {fieldProps('fullName', 'Full Name', <User className="h-4 w-4" />)}
+            {fieldProps('license', 'Medical License No.', <BadgeCheck className="h-4 w-4" />)}
+            {fieldProps('specialization', 'Specialization', <Briefcase className="h-4 w-4" />)}
+            {fieldProps('hospitalName', 'Hospital / Clinic', <Building2 className="h-4 w-4" />)}
+            {fieldProps('yearsExperience', 'Years of Experience', <Briefcase className="h-4 w-4" />, 'number')}
           </div>
-          <h2 className="mt-4 text-lg font-bold text-ink-900">Dr. Anjali Menon</h2>
-          <p className="text-sm text-ink-500">General Physician</p>
-          <div className="mt-3 flex justify-center">
-            <Badge tone="success"><ShieldCheck className="h-3.5 w-3.5" /> Authorized</Badge>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 border-t border-ink-200 pt-4 text-sm">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Patients</p>
-              <p className="font-bold text-ink-900">1,247</p>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Consultations</p>
-              <p className="font-bold text-ink-900">3,820</p>
-            </div>
+
+          <h3 className="text-lg font-bold text-ink-900 mt-6 mb-4">Contact Information</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {fieldProps('phone', 'Phone', <Phone className="h-4 w-4" />)}
+            {fieldProps('email', 'Email', <Mail className="h-4 w-4" />)}
+            {fieldProps('district', 'District', <MapPin className="h-4 w-4" />)}
           </div>
         </Card>
 
-        {/* Details */}
-        <div className="lg:col-span-2 space-y-4">
-          <Card padding="md">
-            <CardHeader title="Professional Information" icon={<Stethoscope className="h-5 w-5" />} />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Detail label="Full Name" value="Dr. Anjali Menon" icon={<Stethoscope className="h-4 w-4" />} />
-              <Detail label="Specialization" value="General Physician" />
-              <Detail label="Registration No" value="KMC-2018-04512" />
-              <Detail label="Experience" value="8 years" icon={<Calendar className="h-4 w-4" />} />
+        <Card padding="lg">
+          <h3 className="text-lg font-bold text-ink-900 mb-4">Your Summary</h3>
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Name</p>
+              <p className="text-sm font-semibold text-ink-900">{form.fullName || '—'}</p>
             </div>
-          </Card>
-
-          <Card padding="md">
-            <CardHeader title="Workplace" icon={<Building2 className="h-5 w-5" />} />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Detail label="Hospital" value="Government Health Centre" icon={<Building2 className="h-4 w-4" />} />
-              <Detail label="District" value="Ernakulam" />
-              <Detail label="Phone" value="+91 484 123 4567" icon={<Phone className="h-4 w-4" />} />
-              <Detail label="Email" value="anjali.menon@ghc.ernakulam.in" icon={<Mail className="h-4 w-4" />} />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">License</p>
+              <p className="text-sm font-semibold text-ink-900">{form.license || '—'}</p>
             </div>
-          </Card>
-
-          <Card padding="md">
-            <CardHeader title="Access Control" icon={<ShieldCheck className="h-5 w-5 text-success-600" />} />
-            <div className="space-y-2.5 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-ink-600">Access Level</span>
-                <Badge tone="primary">Healthcare Worker</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-ink-600">Record Access</span>
-                <Badge tone="secondary">Authorized</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-ink-600">Can Prescribe</span>
-                <Badge tone="success">Yes</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-ink-600">Last Login</span>
-                <span className="font-semibold text-ink-700">12 Aug 2026, 08:45</span>
-              </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Specialization</p>
+              <p className="text-sm font-semibold text-ink-900">{form.specialization || '—'}</p>
             </div>
-          </Card>
-        </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Hospital</p>
+              <p className="text-sm font-semibold text-ink-900">{form.hospitalName || '—'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Phone</p>
+              <p className="text-sm font-semibold text-ink-900">{form.phone || '—'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Email</p>
+              <p className="text-sm font-semibold text-ink-900">{form.email || '—'}</p>
+            </div>
+          </div>
+        </Card>
       </div>
     </DashboardLayout>
-  );
-}
-
-function Detail({ label, value, icon }: { label: string; value: string; icon?: React.ReactNode }) {
-  return (
-    <div>
-      <p className="text-xs font-bold uppercase tracking-wider text-ink-400 flex items-center gap-1">{icon}{label}</p>
-      <p className="mt-1 font-bold text-ink-900">{value}</p>
-    </div>
   );
 }

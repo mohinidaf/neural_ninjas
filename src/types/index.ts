@@ -149,3 +149,22 @@ export interface ChatQuickAction {
   label: string;
   icon: string; // lucide icon name
 }
+
+export interface DoctorProfileData {
+  fullName: string;
+  license: string;
+  specialization: string;
+  hospitalName: string;
+  yearsExperience: number;
+  phone: string;
+  email: string;
+  isComplete: boolean;
+}
+
+export interface ActivityLogEntry {
+  id: string;
+  type: 'profile_completed' | 'qr_scanned' | 'patient_accessed' | 'consultation_added' | 'prescription_created';
+  description: string;
+  timestamp: string;
+  healthId?: string;
+}
