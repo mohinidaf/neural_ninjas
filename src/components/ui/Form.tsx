@@ -53,7 +53,10 @@ Input.displayName = 'Input';
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
+<<<<<<< HEAD
   hint?: string;
+=======
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
   children: ReactNode;
 }
 

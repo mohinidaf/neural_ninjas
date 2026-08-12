@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+<<<<<<< HEAD
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { LandingPage } from '@/pages/LandingPage';
@@ -10,6 +11,10 @@ import { RegisterHospitalPage } from '@/pages/auth/RegisterHospitalPage';
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage';
 import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
 import { PendingApprovalPage } from '@/pages/auth/PendingApprovalPage';
+=======
+import { LandingPage } from '@/pages/LandingPage';
+import { RoleSelectPage } from '@/pages/RoleSelectPage';
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 import { WorkerDashboard } from '@/pages/worker/WorkerDashboard';
 import { WorkerHealthID } from '@/pages/worker/WorkerHealthID';
 import { WorkerRecord } from '@/pages/worker/WorkerRecord';
@@ -30,12 +35,16 @@ import { AdminWorkers } from '@/pages/admin/AdminWorkers';
 import { AdminDisease } from '@/pages/admin/AdminDisease';
 import { AdminSDG } from '@/pages/admin/AdminSDG';
 import { AdminProfile } from '@/pages/admin/AdminProfile';
+<<<<<<< HEAD
 import { HospitalDashboard } from '@/pages/hospital/HospitalDashboard';
+=======
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 import { HealthSaathiProvider } from '@/components/HealthSaathi/HealthSaathiWidget';
 
 export default function App() {
   return (
     <BrowserRouter>
+<<<<<<< HEAD
       <AuthProvider>
         <Routes>
           {/* Public Routes */}
@@ -234,6 +243,41 @@ export default function App() {
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </AuthProvider>
+=======
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/role" element={<RoleSelectPage />} />
+
+        {/* Worker */}
+        <Route path="/worker" element={<HealthSaathiProvider><WorkerDashboard /></HealthSaathiProvider>} />
+        <Route path="/worker/health-id" element={<HealthSaathiProvider><WorkerHealthID /></HealthSaathiProvider>} />
+        <Route path="/worker/record" element={<HealthSaathiProvider><WorkerRecord /></HealthSaathiProvider>} />
+        <Route path="/worker/emergency" element={<HealthSaathiProvider><WorkerEmergency /></HealthSaathiProvider>} />
+        <Route path="/worker/profile" element={<HealthSaathiProvider><WorkerProfile /></HealthSaathiProvider>} />
+
+        {/* Doctor */}
+        <Route path="/doctor" element={<DoctorDashboard />} />
+        <Route path="/doctor/patients" element={<DoctorPatients />} />
+        <Route path="/doctor/patient/:healthId" element={<PatientViewPage />} />
+        <Route path="/doctor/scan" element={<DoctorScan />} />
+        <Route path="/doctor/consultations" element={<DoctorConsultations />} />
+        <Route path="/doctor/prescriptions" element={<DoctorPrescriptions />} />
+        <Route path="/doctor/lab-reports" element={<DoctorLabReports />} />
+        <Route path="/doctor/vaccinations" element={<DoctorVaccinations />} />
+        <Route path="/doctor/alerts" element={<DoctorAlerts />} />
+        <Route path="/doctor/profile" element={<DoctorProfile />} />
+
+        {/* Admin */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/workers" element={<AdminWorkers />} />
+        <Route path="/admin/disease" element={<AdminDisease />} />
+        <Route path="/admin/sdg" element={<AdminSDG />} />
+        <Route path="/admin/profile" element={<AdminProfile />} />
+
+        {/* Fallback */}
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
     </BrowserRouter>
   );
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export type Role = 'worker' | 'doctor' | 'admin' | 'hospital';
+=======
+export type Role = 'worker' | 'doctor' | 'admin';
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
 
@@ -149,6 +153,7 @@ export interface ChatQuickAction {
   label: string;
   icon: string; // lucide icon name
 }
+<<<<<<< HEAD
 
 // Auth & Profile Types
 export type AccountStatus = 'active' | 'pending' | 'suspended' | 'rejected';
@@ -242,3 +247,5 @@ export interface AuthError {
   message: string;
   code?: string;
 }
+=======
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48

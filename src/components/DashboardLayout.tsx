@@ -2,12 +2,19 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Users, QrCode, Stethoscope, FileText, FlaskConical,
+<<<<<<< HEAD
   Syringe, BellRing, UserCircle, Menu, X, LogOut, ShieldCheck, Building2,
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
 import type { WorkerProfile } from '@/types';
+=======
+  Syringe, BellRing, UserCircle, Menu, X, LogOut, ShieldCheck,
+} from 'lucide-react';
+import { Logo } from '@/components/Logo';
+import { Button } from '@/components/ui/Button';
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 
 interface NavItem {
   to: string;
@@ -41,28 +48,41 @@ const navByRole: Record<string, NavItem[]> = {
     { to: '/admin/sdg', label: 'SDG Impact', icon: <ShieldCheck className="h-5 w-5" /> },
     { to: '/admin/profile', label: 'Profile', icon: <UserCircle className="h-5 w-5" /> },
   ],
+<<<<<<< HEAD
   hospital: [
     { to: '/hospital', label: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
     { to: '/hospital/profile', label: 'Hospital Profile', icon: <Building2 className="h-5 w-5" /> },
   ],
+=======
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 };
 
 const roleLabel: Record<string, string> = {
   worker: 'Migrant Worker',
   doctor: 'Healthcare Worker',
   admin: 'Health Authority',
+<<<<<<< HEAD
   hospital: 'Hospital',
+=======
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 };
 
 const roleUser: Record<string, { name: string; sub: string }> = {
   worker: { name: 'Rahim Ali', sub: 'KER-MW-10245' },
   doctor: { name: 'Dr. Anjali Menon', sub: 'Govt Health Centre, Ernakulam' },
   admin: { name: 'Health Authority', sub: 'Kerala State Health Mission' },
+<<<<<<< HEAD
   hospital: { name: 'Hospital Admin', sub: 'SetuHealth Platform' },
 };
 
 interface DashboardLayoutProps {
   role: 'worker' | 'doctor' | 'admin' | 'hospital';
+=======
+};
+
+interface DashboardLayoutProps {
+  role: 'worker' | 'doctor' | 'admin';
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
   children: React.ReactNode;
 }
 
@@ -70,6 +90,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+<<<<<<< HEAD
   const { signOut, profile } = useAuth();
   const nav = navByRole[role];
 
@@ -80,6 +101,10 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
     await signOut();
     navigate('/', { replace: true });
   };
+=======
+  const nav = navByRole[role];
+  const user = roleUser[role];
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 
   const isActive = (to: string) => location.pathname === to || (to !== `/${role}` && location.pathname.startsWith(to));
 
@@ -106,8 +131,13 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
         <div className="px-3 py-4">
           <div className="mb-4 rounded-lg bg-primary-50 px-3 py-2.5">
             <p className="text-[10px] font-bold uppercase tracking-wider text-primary-600">{roleLabel[role]} Portal</p>
+<<<<<<< HEAD
             <p className="mt-0.5 text-sm font-bold text-ink-900">{displayName}</p>
             <p className="text-xs text-ink-500">{displaySub}</p>
+=======
+            <p className="mt-0.5 text-sm font-bold text-ink-900">{user.name}</p>
+            <p className="text-xs text-ink-500">{user.sub}</p>
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
           </div>
 
           <nav className="space-y-1">
@@ -132,9 +162,15 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
           </nav>
 
           <div className="mt-6 border-t border-ink-200 pt-4">
+<<<<<<< HEAD
             <Button variant="ghost" size="sm" className="w-full justify-start text-ink-500" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               Sign Out
+=======
+            <Button variant="ghost" size="sm" className="w-full justify-start text-ink-500" onClick={() => navigate('/')}>
+              <LogOut className="h-4 w-4" />
+              Exit to Home
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
             </Button>
           </div>
         </div>
@@ -159,7 +195,11 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
               <span className="text-xs font-semibold text-success-700">Demo Mode</span>
             </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
+<<<<<<< HEAD
               {displayName.charAt(0)}
+=======
+              {user.name.charAt(0)}
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
             </div>
           </div>
         </header>

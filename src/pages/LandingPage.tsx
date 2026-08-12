@@ -8,6 +8,10 @@ import { LandingNav } from '@/components/LandingNav';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+<<<<<<< HEAD
+=======
+import nameImage from '../../images/name_-removebg-preview.png';
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
 
 const problems = [
   { icon: FileStack, title: 'Lost Medical Records', desc: 'Paper prescriptions and lab reports get lost, damaged, or left behind when workers move between districts.' },
@@ -275,10 +279,14 @@ export function LandingPage() {
           <div className="grid gap-8 md:grid-cols-4">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2.5">
+<<<<<<< HEAD
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
                   <HeartPulse className="h-5 w-5" />
                 </div>
                 <span className="text-lg font-extrabold text-ink-900">Setu<span className="text-brand-gradient">Health</span></span>
+=======
+                <img src={nameImage} alt="SetuHealth" className="h-6 w-auto" />
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
               </div>
               <p className="mt-4 max-w-md text-sm text-ink-600 leading-relaxed">
                 A digital health record management system for migrant workers in Kerala, aligned with the UN
@@ -299,9 +307,15 @@ export function LandingPage() {
               <h4 className="text-sm font-bold text-ink-900">Get Started</h4>
               <ul className="mt-3 space-y-2 text-sm text-ink-600">
                 <li><Link to="/role" className="hover:text-primary-700">Choose Role</Link></li>
+<<<<<<< HEAD
                 <li><Link to="/login/worker" className="hover:text-primary-700">Worker Portal</Link></li>
                 <li><Link to="/login/doctor" className="hover:text-primary-700">Doctor Portal</Link></li>
                 <li><Link to="/login/admin" className="hover:text-primary-700">Admin Dashboard</Link></li>
+=======
+                <li><Link to="/worker" className="hover:text-primary-700">Worker Portal</Link></li>
+                <li><Link to="/doctor" className="hover:text-primary-700">Doctor Portal</Link></li>
+                <li><Link to="/admin" className="hover:text-primary-700">Admin Dashboard</Link></li>
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
               </ul>
             </div>
           </div>
@@ -330,8 +344,12 @@ function HeroHealthCard() {
         {/* Card header */}
         <div className="flex items-center justify-between bg-gradient-to-r from-primary-800 to-primary-700 px-6 py-4 text-white">
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <HeartPulse className="h-5 w-5" />
             <span className="font-bold">SetuHealth</span>
+=======
+            <img src={nameImage} alt="SetuHealth" className="h-5 w-auto" />
+>>>>>>> e47a57daf19862945af7d9790fcf354bf297bc48
           </div>
           <Badge tone="success" className="bg-white/15 text-white border-white/20">Active</Badge>
         </div>
