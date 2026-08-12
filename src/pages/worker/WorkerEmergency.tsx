@@ -1,10 +1,12 @@
 import { Droplet, AlertTriangle, Pill, Phone, Activity, ShieldCheck, HeartPulse } from 'lucide-react';
 import { DashboardLayout, PageHeader } from '@/components/DashboardLayout';
 import { Badge } from '@/components/ui/Badge';
-import { primaryPatient } from '@/data/demoData';
+import { useWorkerProfile } from '@/contexts/WorkerProfileContext';
 
 export function WorkerEmergency() {
-  const p = primaryPatient;
+  const { patientView } = useWorkerProfile();
+  const p = patientView;
+
   return (
     <DashboardLayout role="worker">
       <PageHeader
@@ -23,7 +25,7 @@ export function WorkerEmergency() {
         </div>
 
         <div className="p-5 sm:p-6">
-          {/* Name + ID — large */}
+          {/* Name + ID */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-danger-700">Name</p>
@@ -37,7 +39,7 @@ export function WorkerEmergency() {
 
           <div className="my-5 h-px bg-danger-200" />
 
-          {/* Critical info grid — large readable */}
+          {/* Critical info grid */}
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-xl bg-white p-4 border border-danger-200">
               <div className="flex items-center gap-2 text-danger-700">
@@ -55,7 +57,7 @@ export function WorkerEmergency() {
               <div className="mt-2 space-y-1">
                 {p.allergies.length ? p.allergies.map(a => (
                   <p key={a.id} className="text-lg font-extrabold text-danger-700">{a.substance} <span className="text-sm font-semibold text-danger-500">({a.severity})</span></p>
-                )) : <p className="text-lg font-bold text-success-700">None</p>}
+                )) : <p className="text-lg font-bold text-success-700">None Reported</p>}
               </div>
             </div>
 
@@ -67,7 +69,7 @@ export function WorkerEmergency() {
               <div className="mt-2 space-y-1">
                 {p.chronicConditions.length ? p.chronicConditions.map(c => (
                   <p key={c.id} className="text-lg font-extrabold text-ink-900">{c.name}</p>
-                )) : <p className="text-lg font-bold text-success-700">None</p>}
+                )) : <p className="text-lg font-bold text-success-700">None Reported</p>}
               </div>
             </div>
           </div>
@@ -79,11 +81,15 @@ export function WorkerEmergency() {
               <span className="text-xs font-bold uppercase tracking-wider">Current Medications</span>
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
-              {p.medications.filter(m => m.status === 'active').map(m => (
-                <span key={m.id} className="rounded-lg bg-ink-100 px-3 py-1.5 text-sm font-bold text-ink-800">
-                  {m.name} ({m.dosage})
-                </span>
-              ))}
+              {p.medications.filter(m => m.status === 'active').length ? (
+                p.medications.filter(m => m.status === 'active').map(m => (
+                  <span key={m.id} className="rounded-lg bg-ink-100 px-3 py-1.5 text-sm font-bold text-ink-800">
+                    {m.name} ({m.dosage})
+                  </span>
+                ))
+              ) : (
+                <span className="text-sm text-ink-500">No active medications listed.</span>
+              )}
             </div>
           </div>
 

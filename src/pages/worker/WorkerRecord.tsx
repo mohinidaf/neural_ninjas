@@ -7,11 +7,11 @@ import { DashboardLayout, PageHeader } from '@/components/DashboardLayout';
 import { Card, CardHeader } from '@/components/ui/Card';
 import { Tabs } from '@/components/ui/Tabs';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
-import { EmptyState } from '@/components/ui/Feedback';
-import { primaryPatient } from '@/data/demoData';
+import { useWorkerProfile } from '@/contexts/WorkerProfileContext';
 
 export function WorkerRecord() {
-  const p = primaryPatient;
+  const { patientView } = useWorkerProfile();
+  const p = patientView;
   const [tab, setTab] = useState('overview');
 
   return (
@@ -38,7 +38,7 @@ export function WorkerRecord() {
       {tab === 'overview' && (
         <div className="grid gap-6 lg:grid-cols-3">
           <Card padding="md" className="lg:col-span-2">
-            <CardHeader title="Personal Information" icon={<User className="h-5 w-5" />} />
+            <CardHeader title="Personal Information" icon={<User className="h-5 w-5 text-primary-600" />} />
             <div className="grid grid-cols-2 gap-4 text-sm">
               <Field label="Full Name" value={p.name} />
               <Field label="Age" value={`${p.age} years`} />
@@ -58,7 +58,7 @@ export function WorkerRecord() {
               <p className="mt-1 text-sm font-semibold text-primary-700">{p.emergencyContact.phone}</p>
             </Card>
             <Card padding="md">
-              <CardHeader title="Vitals" icon={<Droplet className="h-5 w-5 text-danger-600" />} />
+              <CardHeader title="Vitals & Alerts" icon={<Droplet className="h-5 w-5 text-danger-600" />} />
               <div className="space-y-2.5 text-sm">
                 <Row label="Blood Group" value={<span className="text-lg font-extrabold text-danger-700">{p.bloodGroup}</span>} />
                 <Row label="Allergies" value={p.allergies.length ? p.allergies.map(a => <Badge key={a.id} tone="danger" className="mr-1">{a.substance}</Badge>) : 'None'} />

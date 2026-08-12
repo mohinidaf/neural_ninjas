@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Button } from '@/components/ui/Button';
+import { useWorkerProfile } from '@/contexts/WorkerProfileContext';
 
 interface NavItem {
   to: string;
@@ -47,8 +48,8 @@ const roleLabel: Record<string, string> = {
   admin: 'Health Authority',
 };
 
-const roleUser: Record<string, { name: string; sub: string }> = {
-  worker: { name: 'Rahim Ali', sub: 'KER-MW-10245' },
+const defaultRoleUser: Record<string, { name: string; sub: string }> = {
+  worker: { name: 'Migrant Worker', sub: 'KER-MW-10245' },
   doctor: { name: 'Dr. Anjali Menon', sub: 'Govt Health Centre, Ernakulam' },
   admin: { name: 'Health Authority', sub: 'Kerala State Health Mission' },
 };
@@ -63,7 +64,22 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const nav = navByRole[role];
-  const user = roleUser[role];
+
+  // Dynamically fetch worker profile if role === 'worker'
+  let user = defaultRoleUser[role];
+  if (role === 'worker') {
+    try {
+      const { profile } = useWorkerProfile();
+      if (profile && profile.name) {
+        user = {
+          name: profile.name,
+          sub: profile.healthId || 'KER-MW-10245',
+        };
+      }
+    } catch (e) {
+      // fallback
+    }
+  }
 
   const handleLogout = () => {
     navigate('/', { replace: true });
@@ -144,7 +160,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 rounded-full bg-success-50 px-3 py-1">
               <span className="h-2 w-2 rounded-full bg-success-500 animate-pulse-soft" />
-              <span className="text-xs font-semibold text-success-700">Demo Mode</span>
+              <span className="text-xs font-semibold text-success-700">Live Health ID</span>
             </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
               {user.name.charAt(0)}
