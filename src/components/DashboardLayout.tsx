@@ -7,6 +7,7 @@ import {
 import { Logo } from '@/components/Logo';
 import { Button } from '@/components/ui/Button';
 import { useWorkerProfile } from '@/contexts/WorkerProfileContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NavItem {
   to: string;
@@ -63,6 +64,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, lang, setLang } = useLanguage();
   const nav = navByRole[role];
 
   // Dynamically fetch worker profile if role === 'worker'
@@ -109,7 +111,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
 
         <div className="px-3 py-4">
           <div className="mb-4 rounded-lg bg-primary-50 px-3 py-2.5">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-primary-600">{roleLabel[role]} Portal</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-primary-600">{t(roleLabel[role])} {t('Portal')}</p>
             <p className="mt-0.5 text-sm font-bold text-ink-900">{user.name}</p>
             <p className="text-xs text-ink-500">{user.sub}</p>
           </div>
@@ -129,7 +131,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
                   }`}
                 >
                   <span className={active ? 'text-white' : 'text-ink-400'}>{item.icon}</span>
-                  {item.label}
+                  {t(item.label)}
                 </Link>
               );
             })}
@@ -138,7 +140,7 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
           <div className="mt-6 border-t border-ink-200 pt-4">
             <Button variant="ghost" size="sm" className="w-full justify-start text-ink-500" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
-              Sign Out
+              {t('Sign Out')}
             </Button>
           </div>
         </div>
@@ -153,14 +155,23 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
           </button>
           <div className="hidden lg:flex items-center gap-2 text-sm text-ink-400">
             <ShieldCheck className="h-4 w-4 text-success-600" />
-            <span className="font-medium">Authorized Access</span>
+            <span className="font-medium">{t('Authorized Access')}</span>
             <span className="text-ink-300">·</span>
-            <span>Protected Health Record</span>
+            <span>{t('Protected Health Record')}</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 rounded-full bg-success-50 px-3 py-1">
               <span className="h-2 w-2 rounded-full bg-success-500 animate-pulse-soft" />
-              <span className="text-xs font-semibold text-success-700">Live Health ID</span>
+              <span className="text-xs font-semibold text-success-700">{t('Live Health ID')}</span>
+            </div>
+            <div className="ml-2 flex items-center">
+              <button
+                onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                className="rounded-md border px-2 py-1 text-sm bg-white"
+                aria-label="Toggle language"
+              >
+                {lang === 'en' ? 'हिंदी' : 'EN'}
+              </button>
             </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
               {user.name.charAt(0)}
@@ -176,11 +187,12 @@ export function DashboardLayout({ role, children }: DashboardLayoutProps) {
 
 // Page header for dashboard pages
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: React.ReactNode }) {
+  const { t } = useLanguage();
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="text-2xl font-extrabold tracking-tight text-ink-900">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-ink-500">{subtitle}</p>}
+        <h1 className="text-2xl font-extrabold tracking-tight text-ink-900">{t(title)}</h1>
+        {subtitle && <p className="mt-1 text-sm text-ink-500">{t(subtitle)}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>

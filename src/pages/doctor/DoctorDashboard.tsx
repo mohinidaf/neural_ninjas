@@ -35,62 +35,23 @@ export function DoctorDashboard() {
     }
   };
 
-  // Profile not complete — show profile completion gate
-  if (!profile.isComplete) {
-    return (
-      <DashboardLayout role="doctor">
-        <PageHeader
-          title="Doctor Dashboard"
-          subtitle="Welcome! Please complete your profile to get started."
-        />
-        <Card padding="lg" className="max-w-2xl mx-auto">
-          <div className="text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warning-100 mb-4">
-              <ClipboardCheck className="h-8 w-8 text-warning-600" />
-            </div>
-            <h2 className="text-xl font-bold text-ink-900">Complete Your Profile</h2>
-            <p className="mt-2 text-sm text-ink-600 max-w-md mx-auto">
-              Before you can scan patient QR codes and access medical records, please complete your professional profile.
-            </p>
-            <div className="mt-6 rounded-lg bg-ink-50 p-4 text-left">
-              <p className="text-xs font-bold uppercase tracking-wider text-ink-400 mb-3">Required Information</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className={`h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold ${profile.fullName ? 'bg-success-100 text-success-700' : 'bg-ink-200 text-ink-500'}`}>
-                    {profile.fullName ? '✓' : '1'}
-                  </span>
-                  <span className={profile.fullName ? 'text-ink-900 font-semibold' : 'text-ink-600'}>Full Name</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold ${profile.license ? 'bg-success-100 text-success-700' : 'bg-ink-200 text-ink-500'}`}>
-                    {profile.license ? '✓' : '2'}
-                  </span>
-                  <span className={profile.license ? 'text-ink-900 font-semibold' : 'text-ink-600'}>Medical License</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold ${profile.specialization ? 'bg-success-100 text-success-700' : 'bg-ink-200 text-ink-500'}`}>
-                    {profile.specialization ? '✓' : '3'}
-                  </span>
-                  <span className={profile.specialization ? 'text-ink-900 font-semibold' : 'text-ink-600'}>Specialization</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold ${profile.hospitalName ? 'bg-success-100 text-success-700' : 'bg-ink-200 text-ink-500'}`}>
-                    {profile.hospitalName ? '✓' : '4'}
-                  </span>
-                  <span className={profile.hospitalName ? 'text-ink-900 font-semibold' : 'text-ink-600'}>Hospital / Clinic Name</span>
-                </div>
-              </div>
-            </div>
-            <Link to="/doctor/profile" className="mt-6 inline-block">
-              <Button size="lg" icon={<ClipboardCheck className="h-4 w-4" />}>
-                Complete Profile
-              </Button>
-            </Link>
+  // If profile not complete, show a top banner prompting completion but allow access to scanner and features
+  const profileIncompleteBanner = !profile.isComplete ? (
+    <Card padding="lg" className="max-w-2xl mx-auto mb-6 border-warning-200 bg-warning-50/70">
+      <div className="flex items-start gap-4">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-warning-100">
+          <ClipboardCheck className="h-6 w-6 text-warning-600" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-ink-900">Complete Your Profile</h3>
+          <p className="mt-1 text-sm text-ink-600 max-w-md">Finish a few required fields in your profile to unlock full scanning and patient access features.</p>
+          <div className="mt-3 flex gap-2">
+            <Link to="/doctor/profile"><Button size="sm" icon={<ClipboardCheck className="h-4 w-4" />}>Complete Profile</Button></Link>
           </div>
-        </Card>
-      </DashboardLayout>
-    );
-  }
+        </div>
+      </div>
+    </Card>
+  ) : null;
 
   // Profile complete — normal dashboard
   return (
@@ -105,6 +66,7 @@ export function DoctorDashboard() {
         }
       />
 
+  {profileIncompleteBanner}
       {/* Stats — dynamic based on scanned patients */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card key="scanned" padding="md" hover>

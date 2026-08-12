@@ -57,7 +57,12 @@ export function LoginPage({ role }: LoginPageProps) {
       return;
     }
 
-    navigate(`/${role}`, { replace: true });
+    // For worker role, redirect to profile completion to ensure QR generation
+    if (role === 'worker') {
+      navigate('/worker/complete-profile', { replace: true });
+    } else {
+      navigate(`/${role}`, { replace: true });
+    }
   };
 
   return (

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { DoctorProvider } from '@/contexts/DoctorContext';
 import { LandingPage } from '@/pages/LandingPage';
 import { RoleSelectPage } from '@/pages/RoleSelectPage';
@@ -7,6 +8,7 @@ import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterWorkerPage } from '@/pages/auth/RegisterWorkerPage';
 import { RegisterDoctorPage } from '@/pages/auth/RegisterDoctorPage';
 import { WorkerDashboard } from '@/pages/worker/WorkerDashboard';
+import { CompleteProfilePage } from '@/pages/worker/CompleteProfilePage';
 import { WorkerHealthID } from '@/pages/worker/WorkerHealthID';
 import { WorkerRecord } from '@/pages/worker/WorkerRecord';
 import { WorkerEmergency } from '@/pages/worker/WorkerEmergency';
@@ -27,11 +29,13 @@ import { AdminDisease } from '@/pages/admin/AdminDisease';
 import { AdminSDG } from '@/pages/admin/AdminSDG';
 import { AdminProfile } from '@/pages/admin/AdminProfile';
 import { HealthSaathiProvider } from '@/components/HealthSaathi/HealthSaathiWidget';
+import { WorkerProfileProvider } from '@/contexts/WorkerProfileContext';
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <LanguageProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -45,11 +49,12 @@ export default function App() {
           <Route path="/register/doctor" element={<RegisterDoctorPage />} />
 
           {/* Worker Routes */}
-          <Route path="/worker" element={<HealthSaathiProvider><WorkerDashboard /></HealthSaathiProvider>} />
-          <Route path="/worker/health-id" element={<HealthSaathiProvider><WorkerHealthID /></HealthSaathiProvider>} />
-          <Route path="/worker/record" element={<HealthSaathiProvider><WorkerRecord /></HealthSaathiProvider>} />
-          <Route path="/worker/emergency" element={<HealthSaathiProvider><WorkerEmergency /></HealthSaathiProvider>} />
-          <Route path="/worker/profile" element={<HealthSaathiProvider><WorkerProfile /></HealthSaathiProvider>} />
+          <Route path="/worker" element={<WorkerProfileProvider><HealthSaathiProvider><WorkerDashboard /></HealthSaathiProvider></WorkerProfileProvider>} />
+          <Route path="/worker/complete-profile" element={<WorkerProfileProvider><HealthSaathiProvider><CompleteProfilePage /></HealthSaathiProvider></WorkerProfileProvider>} />
+          <Route path="/worker/health-id" element={<WorkerProfileProvider><HealthSaathiProvider><WorkerHealthID /></HealthSaathiProvider></WorkerProfileProvider>} />
+          <Route path="/worker/record" element={<WorkerProfileProvider><HealthSaathiProvider><WorkerRecord /></HealthSaathiProvider></WorkerProfileProvider>} />
+          <Route path="/worker/emergency" element={<WorkerProfileProvider><HealthSaathiProvider><WorkerEmergency /></HealthSaathiProvider></WorkerProfileProvider>} />
+          <Route path="/worker/profile" element={<WorkerProfileProvider><HealthSaathiProvider><WorkerProfile /></HealthSaathiProvider></WorkerProfileProvider>} />
 
           {/* Doctor Routes */}
           <Route path="/doctor" element={<DoctorProvider><DoctorDashboard /></DoctorProvider>} />
@@ -73,6 +78,7 @@ export default function App() {
           {/* Fallback */}
           <Route path="*" element={<LandingPage />} />
         </Routes>
+        </LanguageProvider>
       </AuthProvider>
     </BrowserRouter>
   );

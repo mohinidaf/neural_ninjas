@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useDoctor } from '@/contexts/DoctorContext';
 import { demoPatients, demoQRMappings, findPatientByQR, findPatientByHealthId } from '@/data/demoData';
+import QRScanner from '@/components/QRScanner';
 
 export function DoctorScan() {
   const { addScannedPatient, addActivity, scannedPatientIds, isProfileComplete } = useDoctor();
@@ -17,19 +18,8 @@ export function DoctorScan() {
   const [searchResult, setSearchResult] = useState<'none' | 'found' | 'notfound'>('none');
   const [foundPatient, setFoundPatient] = useState<typeof demoPatients[0] | null>(null);
 
-  if (!isProfileComplete()) {
-    return (
-      <DashboardLayout role="doctor">
-        <PageHeader title="Scan Patient QR" subtitle="Complete your profile first" />
-        <Card padding="lg" className="max-w-md mx-auto text-center">
-          <AlertTriangle className="h-10 w-10 text-warning-500 mx-auto mb-3" />
-          <p className="text-ink-900 font-bold">Profile Incomplete</p>
-          <p className="text-sm text-ink-500 mt-1">You must complete your doctor profile before scanning patient QR codes.</p>
-          <Button className="mt-4" onClick={() => navigate('/doctor/profile')}>Complete Profile</Button>
-        </Card>
-      </DashboardLayout>
-    );
-  }
+  // If profile not complete, show a warning but still allow scanning (for demo/testing).
+  const showProfileWarning = !isProfileComplete();
 
   const handleManualSearch = () => {
     if (!manualId.trim()) return;
@@ -68,6 +58,34 @@ export function DoctorScan() {
         subtitle="Scan a patient's QR code or use a demo code below"
       />
 
+      {showProfileWarning && (
+        <Card padding="md" className="max-w-2xl mx-auto mb-6 border-warning-200 bg-warning-50/60">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="h-6 w-6 text-warning-600" />
+            <div>
+              <p className="text-sm font-bold text-ink-900">Profile Incomplete</p>
+              <p className="text-xs text-ink-600">Complete your profile to ensure scanned records are saved under your account.</p>
+            </div>
+            <div className="ml-auto">
+              <Button size="sm" onClick={() => navigate('/doctor/profile')}>Complete Profile</Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Live Scanner */}
+      <Card padding="lg" className="mb-6">
+        <CardHeader title="Live Scanner" subtitle="Open your camera to scan a patient's QR code live" icon={<Camera className="h-5 w-5" />} />
+        <div>
+          <QRScanner onScan={(decoded) => {
+            const patient = findPatientByQR(decoded);
+            if (patient) {
+              setFoundPatient(patient);
+              setSearchResult('found');
+            }
+          }} onError={(e) => console.warn('QR scan error', e)} />
+        </div>
+      </Card>
       {/* Demo QR Codes */}
       <Card padding="lg">
         <CardHeader title="Demo QR Codes" subtitle="Tap any code below to simulate scanning that patient's QR" icon={<Camera className="h-5 w-5" />} />

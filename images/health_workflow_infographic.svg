@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#e6f7fb" />
+      <stop offset="1" stop-color="#f0fbf5" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop offset="0" stop-color="#0b84ff" />
+      <stop offset="1" stop-color="#16a34a" />
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#0b84ff" flood-opacity="0.06"/>
+    </filter>
+    <style>
+      .arrow { fill: none; stroke: #0b84ff; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .muted { fill: #f7fafc; }
+      .panel { fill: white; stroke: #e6f0f7; stroke-width: 1; }
+      .accent-fill { fill: url(#accent); }
+      .blue { fill: #0b84ff; }
+      .green { fill: #16a34a; }
+      .soft { fill: rgba(11,132,255,0.08); }
+      .icon-stroke { stroke: #0b4fbf; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)" />
+
+  <!-- Flow baseline guide (invisible, used for alignment) -->
+
+  <!-- Scene 1: Worker enters hospital, consults doctor -->
+  <g id="scene1" transform="translate(60,120)">
+    <rect x="0" y="20" width="420" height="360" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- hospital building simplified -->
+    <g transform="translate(26,36)">
+      <rect x="0" y="24" width="120" height="84" rx="10" fill="#ffffff" stroke="#dbe9ff" />
+      <rect x="14" y="36" width="36" height="28" rx="4" fill="#0b84ff" />
+      <rect x="70" y="36" width="24" height="28" rx="4" fill="#16a34a" />
+      <rect x="40" y="6" width="40" height="12" rx="4" fill="#0b84ff" />
+      <!-- entrance path -->
+      <rect x="44" y="110" width="32" height="10" rx="5" fill="#e6f7fb" />
+    </g>
+    <!-- worker figure -->
+    <g transform="translate(170,120)">
+      <circle cx="0" cy="-8" r="18" fill="#fff" stroke="#cfefff" />
+      <rect x="-22" y="10" width="44" height="36" rx="8" fill="#0b84ff" />
+      <!-- helmet -->
+      <rect x="-26" y="-20" width="52" height="14" rx="7" fill="#ffd166" />
+      <rect x="-10" y="-6" width="20" height="6" rx="3" fill="#fff" />
+      <!-- legs -->
+      <rect x="-18" y="46" width="12" height="28" rx="6" fill="#073b8c" />
+      <rect x="6" y="46" width="12" height="28" rx="6" fill="#073b8c" />
+    </g>
+    <!-- doctor and desk -->
+    <g transform="translate(290,180)">
+      <rect x="-18" y="-26" width="72" height="46" rx="8" fill="#fff" stroke="#e6f0f7" />
+      <rect x="-10" y="-18" width="28" height="28" rx="6" fill="#f0fbf5" />
+      <circle cx="-2" cy="-8" r="12" fill="#fff" stroke="#cfefff" />
+      <!-- stethoscope hint -->
+      <path d="M28 -2 C36 12, 20 26, 12 18" stroke="#0b84ff" stroke-width="4" fill="none" stroke-linecap="round" />
+      <!-- monitor -->
+      <rect x="10" y="-26" width="56" height="36" rx="6" fill="#0b84ff" />
+      <rect x="22" y="-16" width="32" height="16" rx="3" fill="#e6f7fb" />
+    </g>
+  </g>
+
+  <!-- Arrow to scene 2 -->
+  <path class="arrow" d="M480 300 C540 300, 600 300, 660 300" marker-end="url(#arrowhead)" />
+
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 z" fill="#0b84ff" />
+    </marker>
+  </defs>
+
+  <!-- Scene 2: Doctor uploads to cloud via computer -->
+  <g id="scene2" transform="translate(720,120)">
+    <rect x="0" y="20" width="420" height="360" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- desktop and cloud -->
+    <g transform="translate(50,70)">
+      <rect x="0" y="8" width="120" height="76" rx="8" fill="#fff" stroke="#dbe9ff" />
+      <rect x="10" y="22" width="100" height="46" rx="6" fill="#0b84ff" />
+      <!-- small lock on screen as secure upload -->
+      <rect x="38" y="12" width="22" height="26" rx="4" fill="#0b4fbf" />
+      <rect x="46" y="18" width="6" height="10" rx="2" fill="#fff" />
+    </g>
+
+    <g transform="translate(240,40)">
+      <!-- cloud icon -->
+      <path d="M40 58c-15 0-27-12-27-27 0-11 8-20 19-22 3-12 14-20 26-20 13 0 24 9 27 21 10 0 18 8 18 18 0 13-11 24-24 24H40z" fill="#e6f7fb" stroke="#0b84ff" />
+      <!-- upload arrow -->
+      <path d="M40 30 v20 M28 42 L40 30 L52 42" stroke="#0b84ff" stroke-width="6" stroke-linecap="round" fill="none" />
+    </g>
+  </g>
+
+  <!-- Connecting arrow -->
+  <path class="arrow" d="M980 300 C1040 300, 1100 300, 1160 300" marker-end="url(#arrowhead)" />
+
+  <!-- Scene 3: Construction site accident, responders arrive -->
+  <g id="scene3" transform="translate(1260,60)">
+    <rect x="0" y="20" width="420" height="460" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- crane silhouette -->
+    <g transform="translate(28,40)">
+      <rect x="20" y="60" width="12" height="120" fill="#073b8c" />
+      <rect x="20" y="56" width="160" height="12" fill="#0b84ff" />
+      <rect x="162" y="56" width="8" height="44" fill="#0b84ff" />
+      <!-- worker at site -->
+      <g transform="translate(140,170)">
+        <circle cx="0" cy="-8" r="18" fill="#fff" stroke="#cfefff" />
+        <rect x="-18" y="10" width="36" height="36" rx="8" fill="#16a34a" />
+      </g>
+      <!-- accident: tilted figure with alert mark (shape-based) -->
+      <g transform="translate(84,170)">
+        <rect x="-14" y="-10" width="28" height="42" rx="6" fill="#073b8c" transform="rotate(-18)" />
+        <!-- triangular alert - built from path not text -->
+        <path d="M0 -6 L14 20 L-14 20 Z" fill="#ffd166" transform="translate(36,12)" />
+        <circle cx="36" cy="30" r="4" fill="#fff" />
+      </g>
+    </g>
+
+    <!-- ambulance arrives -->
+    <g transform="translate(240,240) scale(1)">
+      <rect x="0" y="0" width="120" height="60" rx="10" fill="#fff" stroke="#dbe9ff" />
+      <rect x="12" y="12" width="28" height="28" rx="4" fill="#ff6b6b" />
+      <rect x="50" y="12" width="44" height="28" rx="4" fill="#0b84ff" />
+      <circle cx="20" cy="62" r="8" fill="#073b8c" />
+      <circle cx="100" cy="62" r="8" fill="#073b8c" />
+    </g>
+  </g>
+
+  <!-- Arrow toward QR scan -->
+  <path class="arrow" d="M1680 420 C1740 420, 1800 420, 1860 420" marker-end="url(#arrowhead)" />
+
+  <!-- Scene 4: Emergency doctor scans QR on ID / phone using tablet -->
+  <g id="scene4" transform="translate(60,560)">
+    <rect x="0" y="20" width="420" height="360" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- tablet -->
+    <g transform="translate(100,120)">
+      <rect x="0" y="0" width="140" height="200" rx="12" fill="#0b84ff" />
+      <rect x="12" y="18" width="116" height="164" rx="8" fill="#e6f7fb" />
+      <!-- QR grid (no text) -->
+      <g transform="translate(22,28)" fill="#073b8c">
+        <!-- 6x6 grid of small squares -->
+        <!-- row 1 -->
+        <rect x="0" y="0" width="12" height="12" />
+        <rect x="16" y="0" width="12" height="12" />
+        <rect x="32" y="0" width="12" height="12" />
+        <rect x="48" y="0" width="12" height="12" />
+        <rect x="64" y="0" width="12" height="12" />
+        <rect x="80" y="0" width="12" height="12" />
+        <!-- row 2 -->
+        <rect x="0" y="16" width="12" height="12" />
+        <rect x="16" y="16" width="12" height="12" />
+        <rect x="32" y="16" width="12" height="12" />
+        <rect x="48" y="16" width="12" height="12" />
+        <rect x="64" y="16" width="12" height="12" />
+        <rect x="80" y="16" width="12" height="12" />
+        <!-- row 3 -->
+        <rect x="0" y="32" width="12" height="12" />
+        <rect x="16" y="32" width="12" height="12" />
+        <rect x="32" y="32" width="12" height="12" />
+        <rect x="48" y="32" width="12" height="12" />
+        <rect x="64" y="32" width="12" height="12" />
+        <rect x="80" y="32" width="12" height="12" />
+      </g>
+      <!-- scan effect lines -->
+      <rect x="12" y="90" width="116" height="6" fill="#16a34a" opacity="0.22" />
+    </g>
+
+    <!-- doctor with tablet -->
+    <g transform="translate(300,160)">
+      <circle cx="0" cy="-8" r="18" fill="#fff" stroke="#cfefff" />
+      <rect x="-22" y="10" width="44" height="36" rx="8" fill="#0b84ff" />
+      <rect x="-6" y="-4" width="12" height="6" rx="3" fill="#fff" />
+    </g>
+
+  </g>
+
+  <!-- Arrow to dashboard -->
+  <path class="arrow" d="M480 780 C540 780, 600 780, 660 780" marker-end="url(#arrowhead)" />
+
+  <!-- Scene 5: Futuristic medical dashboard (no text) -->
+  <g id="scene5" transform="translate(720,560)">
+    <rect x="0" y="20" width="540" height="360" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- central monitor -->
+    <g transform="translate(36,36)">
+      <rect x="0" y="0" width="468" height="288" rx="12" fill="#0b84ff" />
+      <rect x="16" y="16" width="436" height="256" rx="8" fill="#e6f7fb" />
+      <!-- health icons: stylized shapes -->
+      <!-- heart pulse -->
+      <g transform="translate(36,36)">
+        <path d="M10 42 L18 22 L26 42 L34 14 L44 42" stroke="#0b84ff" stroke-width="6" fill="none" stroke-linecap="round" />
+      </g>
+      <!-- pill icon -->
+      <g transform="translate(160,36)">
+        <rect x="0" y="0" width="56" height="28" rx="14" fill="#16a34a" />
+        <rect x="28" y="0" width="28" height="28" rx="14" fill="#0b84ff" />
+      </g>
+      <!-- allergy/alert droplet -->
+      <g transform="translate(300,36)">
+        <path d="M20 4 C26 4, 32 10, 32 16 C32 28, 10 40, 10 40 C10 40, -4 24, 6 12 C10 6, 14 4, 20 4 Z" fill="#ffd166" stroke="#ff9f1c" />
+      </g>
+      <!-- blood drop -->
+      <g transform="translate(36,120)">
+        <path d="M30 2 C36 12, 44 20, 30 36 C16 20, 24 12, 30 2 Z" fill="#ff6b6b" stroke="#d93a3a" />
+      </g>
+      <!-- document / report icon -->
+      <g transform="translate(140,120)">
+        <rect x="0" y="0" width="56" height="72" rx="6" fill="#fff" stroke="#dbe9ff" />
+        <rect x="8" y="10" width="40" height="8" rx="4" fill="#e6f7fb" />
+        <rect x="8" y="26" width="40" height="8" rx="4" fill="#e6f7fb" />
+      </g>
+      <!-- contact icon -->
+      <g transform="translate(280,120)">
+        <circle cx="14" cy="16" r="16" fill="#fff" stroke="#e6f7fb" />
+        <circle cx="14" cy="10" r="6" fill="#0b84ff" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow to ER treatment -->
+  <path class="arrow" d="M1260 780 C1320 780, 1380 780, 1440 780" marker-end="url(#arrowhead)" />
+
+  <!-- Scene 6: Emergency room treatment with monitors -->
+  <g id="scene6" transform="translate(1260,560)">
+    <rect x="0" y="20" width="420" height="360" rx="20" class="panel" filter="url(#softShadow)" />
+    <!-- bed and patient -->
+    <g transform="translate(36,80)">
+      <rect x="0" y="24" width="200" height="56" rx="12" fill="#fff" stroke="#dbe9ff" />
+      <rect x="12" y="0" width="40" height="40" rx="10" fill="#0b84ff" />
+      <rect x="64" y="4" width="40" height="28" rx="6" fill="#16a34a" />
+      <!-- monitor with waveform -->
+      <rect x="220" y="6" width="120" height="80" rx="8" fill="#e6f7fb" stroke="#0b84ff" />
+      <path d="M236 40 C246 28, 254 56, 266 40, 276 26, 292 58" stroke="#0b84ff" stroke-width="6" fill="none" stroke-linecap="round" />
+    </g>
+    <!-- doctors around bed -->
+    <g transform="translate(280,160)">
+      <circle cx="0" cy="-8" r="18" fill="#fff" stroke="#cfefff" />
+      <rect x="-22" y="10" width="44" height="36" rx="8" fill="#0b84ff" />
+      <g transform="translate(56,8)">
+        <circle cx="0" cy="-8" r="18" fill="#fff" stroke="#cfefff" />
+        <rect x="-12" y="10" width="24" height="36" rx="6" fill="#16a34a" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Final Scene 7: Cloud database sync across hospitals on a map outline -->
+  <g id="scene7" transform="translate(60,980) scale(1)">
+    <!-- background map box -->
+    <rect x="0" y="-220" width="1800" height="220" rx="12" fill="white" stroke="#e6f0f7" />
+    <!-- simplified map outline: abstract shape -->
+    <path d="M80 -180 C200 -260, 420 -170, 560 -200 C720 -230, 920 -140, 1120 -160 C1360 -180, 1560 -120, 1680 -180" fill="none" stroke="#dbe9ff" stroke-width="2" />
+    <!-- multiple hospital icons connected -->
+    <g transform="translate(140,-130)">
+      <rect x="0" y="0" width="72" height="56" rx="8" fill="#fff" stroke="#0b84ff" />
+      <rect x="18" y="6" width="36" height="10" rx="4" fill="#0b84ff" />
+    </g>
+    <g transform="translate(520,-100)">
+      <rect x="0" y="0" width="72" height="56" rx="8" fill="#fff" stroke="#16a34a" />
+      <rect x="10" y="12" width="52" height="10" rx="4" fill="#16a34a" />
+    </g>
+    <g transform="translate(980,-130)">
+      <rect x="0" y="0" width="72" height="56" rx="8" fill="#fff" stroke="#0b84ff" />
+      <rect x="14" y="10" width="44" height="10" rx="4" fill="#0b84ff" />
+    </g>
+    <!-- cloud center -->
+    <g transform="translate(760,-170)">
+      <path d="M40 58c-15 0-27-12-27-27 0-11 8-20 19-22 3-12 14-20 26-20 13 0 24 9 27 21 10 0 18 8 18 18 0 13-11 24-24 24H40z" fill="#e6f7fb" stroke="#0b84ff" />
+      <rect x="34" y="30" width="12" height="18" rx="2" fill="#0b84ff" />
+    </g>
+    <!-- sync arrows connecting hospitals to cloud -->
+    <path d="M176 -110 C360 -150, 700 -150, 820 -150" stroke="#0b84ff" stroke-width="6" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M576 -90 C720 -110, 820 -110, 880 -110" stroke="#16a34a" stroke-width="6" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M1056 -120 C940 -140, 840 -140, 820 -150" stroke="#0b84ff" stroke-width="6" fill="none" marker-end="url(#arrowhead)" />
+  </g>
+
+</svg>
